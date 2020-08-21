@@ -10,8 +10,7 @@ class DishDetails extends Component {
 
     renderDish(dish) {
         // make sure the selected dish is an existing dish
-        if(dish != null) 
-        {
+       
               return (
                   <Card>
                        <CardImg width="100%" src={dish.image} alt={dish.name} />
@@ -22,15 +21,11 @@ class DishDetails extends Component {
                   </Card>
               )
         }
-        else 
-        {
-            return null;
-        }
-    }
-     renderComments(dish) {
+       
+    
+     renderComments(comments) {
          //Get the comments array using props keyword    
-        if (dish!= null){
-            const coms = dish.comments.map((com) => {
+            const coms = comments.map((com) => {
                 let date = new Intl.DateTimeFormat('en-US', {
                     year:'numeric',
                     month: 'short',
@@ -55,31 +50,31 @@ class DishDetails extends Component {
                 </div>
 
             );
-        }
-        else {
-            return(
-                <div></div>
-            )
-        }
 
          
      }
 
 
     render() {
-        return (
-        <div className="container">
-                <div className="row">    
+        if (this.props.dish) {
+            return (
+                <div className="container">
+                <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderDish(this.props.selectedDish)}
+                        {this.renderDish(this.props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderComments(this.props.selectedDish)}
+                        {this.renderComments(this.props.dish.comments)}
                     </div>
                 </div>
-
-        </div>
-        )
+                </div>
+            );
+        }
+        else {
+            return (
+                <div></div>
+            );
+        }
     }
 }
 export default DishDetails;
