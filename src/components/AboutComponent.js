@@ -1,27 +1,44 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
 
 function About(props) {
 
-     function RenderLeader({leader}) {
+     function RenderLeader({ leader, isLoading, errMess }) {
+         if (isLoading) 
+        {
+            return <Loading />;
+        } 
+        else if (errMess) 
+        {
+            return <h4>{errMess}</h4>;
+        } 
+        else
          return(
             <div className="col-12 mt-5">
+             <Fade in>
                     <Media>
-                    <Media className="mr-5" object src={leader.image} alt={leader.name} />
+                    <Media className="mr-5" object src={baseUrl+leader.image} alt={leader.name} />
                     <Media body>
                         <Media heading>{leader.name}</Media>
                         <p>{leader.designation}</p>
                         <p>{leader.description}</p>
                     </Media>    
                 </Media>
+             </Fade>
             </div>
     );
 
     }
     const leaders = props.leaders.map((leader) => {
         return (
-           <RenderLeader leader={leader} />
+            <Stagger in>
+           <RenderLeader leader={leader} isLoading={props.leadersLoading}
+              errMess={props.leadersErrMess} />
+            </Stagger>
         );
     });
 
